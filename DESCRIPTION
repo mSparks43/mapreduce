@@ -16,4 +16,5 @@ RoxygenNote: 7.2.3
 Depends:
     parallel,
     foreach,
-    doParallel
+    doParallel,
+    dplyr

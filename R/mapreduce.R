@@ -4,6 +4,7 @@ if(Sys.info()["sysname"][1]=="Linux" || Sys.info()["sysname"][1]=="Darwin") {
 }else {
   pkg.env$numCores <- 1
 }
+registerDoParallel(pkg.env$numCores)
 #' Map Reduce Map Function
 #'
 #' parse a map function over source data
@@ -13,9 +14,9 @@ if(Sys.info()["sysname"][1]=="Linux" || Sys.info()["sysname"][1]=="Darwin") {
 #' @examples
 #' emitFunction <- function(row) {
 #'   if(is.null(row[['Molecule']]))
-#'     return data.frame()
+#'     return (data.frame())
 #'   retVal <- data.frame(molecule=row[['Molecule']],count=1)
-#'   return retVal
+#'   return (retVal)
 #' }
 #'
 #' list_data <- mapReduce_map(ndjson_data,emitFunction)
