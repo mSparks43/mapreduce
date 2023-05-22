@@ -1,0 +1,19 @@
+Package: mapreduce
+Type: Package
+Title: MapReduce Functions for R
+Version: 0.1.0
+Author: Mark Parker
+Maintainer: Zem Solutions <mark@zem-solutions.com>
+Description: MapReduce: simplified data processing on large clusters
+    10.5555/1251254.1251264
+    greatly speeds up data manipulation of large datasets, these functions 
+    enable use of the Map Reduce paradigm generally seen in online 
+    "NoSQL" databases directly on and from within R
+License: CC BY-SA 4.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+Depends:
+    parallel
+    foreach
+    doParallel
