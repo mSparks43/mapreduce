@@ -4,7 +4,7 @@ if(Sys.info()["sysname"][1]=="Linux" || Sys.info()["sysname"][1]=="Darwin") {
 }else {
   pkg.env$numCores <- 1
 }
-registerDoParallel(pkg.env$numCores)
+pkg.env$registered <- FALSE
 #' Map Reduce Map Function
 #'
 #' parse a map function over source data
@@ -45,6 +45,10 @@ mapReduce_map<-function(srcDoc,mapFunction){
 #' @export
 mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
   if(pkg.env$numCores>1){
+    if(!pkg.env$registered){
+      registerDoParallel(pkg.env$numCores)
+      pkg.env$registered <- TRUE
+    }
     mapReducer <- function(x) {
       retVal<- foreach(i=x, .combine=rbind) %dopar% {
         dt_s[[i]]
