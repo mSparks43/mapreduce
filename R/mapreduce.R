@@ -93,3 +93,14 @@ mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
     return(retVal)
   }
 }
+#' Map Reduce update number of worker
+#'
+#' By default, detectCores is used to set the number of workers, use this function to
+#' modify this value.
+#' @param numWorkers the number of workers
+#' @return void
+#'
+#' @export
+mapReduce_numWorkers <- function(numWorkers){
+  pkg.env$numCores <- numWorkers
+}

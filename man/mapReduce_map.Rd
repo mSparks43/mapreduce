@@ -20,9 +20,9 @@ parse a map function over source data
 \examples{
 emitFunction <- function(row) {
   if(is.null(row[['Molecule']]))
-    return data.frame()
+    return (data.frame())
   retVal <- data.frame(molecule=row[['Molecule']],count=1)
-  return retVal
+  return (retVal)
 }
 
 list_data <- mapReduce_map(ndjson_data,emitFunction)
