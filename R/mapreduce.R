@@ -1,3 +1,4 @@
+
 pkg.env <- new.env()
 if(Sys.info()["sysname"][1]=="Linux" || Sys.info()["sysname"][1]=="Darwin") {
   pkg.env$numCores <- detectCores()
@@ -44,11 +45,12 @@ mapReduce_map<-function(srcDoc,mapFunction){
 #'
 #' @export
 mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
-  if(pkg.env$numCores>1){
-    if(!pkg.env$registered){
+  if(!pkg.env$registered){
       registerDoParallel(pkg.env$numCores)
       pkg.env$registered <- TRUE
     }
+  if(pkg.env$numCores>1){
+    
     mapReducer <- function(x) {
       retVal<- foreach(i=x, .combine=rbind) %dopar% {
         dt_s[[i]]
