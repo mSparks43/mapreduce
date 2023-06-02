@@ -5,6 +5,7 @@ if(Sys.info()["sysname"][1]=="Linux" || Sys.info()["sysname"][1]=="Darwin") {
 }else {
   pkg.env$numCores <- 1
 }
+pkg.env$maxCores <- pkg.env$numCores
 pkg.env$registered <- FALSE
 #' Map Reduce Map Function
 #'
@@ -99,8 +100,11 @@ mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
 #' modify this value.
 #' @param numWorkers the number of workers
 #' @return void
+#' @param numWorkers the number of workers
+#' @return void
 #'
 #' @export
 mapReduce_numWorkers <- function(numWorkers){
-  pkg.env$numCores <- numWorkers
+  pkg.env$numCores <- max(c(numWorkers,pkg.env$maxCores))
 }
+5121
