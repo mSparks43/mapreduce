@@ -105,6 +105,6 @@ mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
 #'
 #' @export
 mapReduce_numWorkers <- function(numWorkers){
-  pkg.env$numCores <- max(c(numWorkers,pkg.env$maxCores))
+  pkg.env$numCores <- min(c(numWorkers,pkg.env$maxCores))
 }
 5121
