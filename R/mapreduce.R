@@ -32,7 +32,39 @@ mapReduce_map<-function(srcDoc,mapFunction){
   }
   return (list(mclapply(inData, mapFunction,mc.cores = pkg.env$numCores))[[1]])
 }
-
+#' Map Reduce Map Function for ndjson files
+#'
+#' parse a map function over source data
+#' @param srcDoc the source file connection to parse
+#' @param mapfunction the function to use, should emit a dataframe, empty if no items
+#' @return a list of mapped items
+#' @examples
+#' file<-"data/flight_data6.jdat"
+#' processRow <- function(row){
+#'   if(startsWith(row,"{")){
+#'     json_final<-fromJSON(row)
+#'     if(!is.null(json_final[["flightData"]])){
+#'       timeStamp<-as.numeric(as.POSIXct(strptime(json_final[["time"]], "%Y/%m/%d %H:%M:%S")))
+#'       if(timeStamp>=initial_time)
+#'         return(data.frame(json_final[["flightData"]],
+#'                time=json_final[["time"]],timestamp=((timeStamp-initial_time)/60)))
+#'       else
+#'         return(data.frame())
+#'     }
+#'     else
+#'       return(data.frame())
+#'   } else {
+#'     return(data.frame())
+#'   }
+#' }
+#' con = file(file, "r")
+#' list_data <- mapReduce_map_ndjson(con,processRow) 
+#' close(con)
+#'
+#' @export
+mapReduce_map_ndjson<-function(srcDoc,mapFunction){
+  return(lapply(readLines(srcDoc, n=-1, warn=FALSE), mapFunction))
+}
 #' Map Reduce Reduce function
 #'
 #' Process a list of mapped dataframes and return a dataframe containing c(key) with c(functions) applied to c(summary_vars)
@@ -107,4 +139,3 @@ mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
 mapReduce_numWorkers <- function(numWorkers){
   pkg.env$numCores <- min(c(numWorkers,pkg.env$maxCores))
 }
-5121
