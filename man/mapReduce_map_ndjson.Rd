@@ -37,7 +37,7 @@ processRow <- function(row){
   }
 }
 con = file(file, "r")
-list_data <- mapReduce_map_ndjson(con,processRow) 
+list_data <- mapReduce_map_ndjson(con,processRow)
 close(con)
 
 }

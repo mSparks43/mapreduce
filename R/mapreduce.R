@@ -58,7 +58,7 @@ mapReduce_map<-function(srcDoc,mapFunction){
 #'   }
 #' }
 #' con = file(file, "r")
-#' list_data <- mapReduce_map_ndjson(con,processRow) 
+#' list_data <- mapReduce_map_ndjson(con,processRow)
 #' close(con)
 #'
 #' @export
@@ -78,12 +78,18 @@ mapReduce_map_ndjson<-function(srcDoc,mapFunction){
 #'
 #' @export
 mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
+  if(is.data.frame(dt_s)){
+    getRow<-function(x){
+      return(data.frame(x))
+    }
+    dt_s<-mapReduce_map(dt_s,getRow)
+  }
   if(!pkg.env$registered){
       registerDoParallel(pkg.env$numCores)
       pkg.env$registered <- TRUE
     }
   if(pkg.env$numCores>1){
-    
+
     mapReducer <- function(x) {
       retVal<- foreach(i=x, .combine=rbind) %dopar% {
         dt_s[[i]]
