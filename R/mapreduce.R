@@ -30,7 +30,9 @@ mapReduce_map<-function(srcDoc,mapFunction){
   } else {
     inData <- srcDoc
   }
-  return (list(mclapply(inData, mapFunction,mc.cores = pkg.env$numCores))[[1]])
+  retVal<-list(mclapply(inData, mapFunction,mc.cores = pkg.env$numCores))[[1]]
+  gc()
+  return (retVal)
 }
 #' Map Reduce Map Function for ndjson files
 #'
@@ -129,6 +131,7 @@ mapReduce_reduce<-function(dt_s,key, functions, summary_vars){
     }else{
       print("no reduce")
     }
+    gc()
     return(retVal)
   }
 }
