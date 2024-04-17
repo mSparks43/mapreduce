@@ -31,6 +31,7 @@ mapReduce_map<-function(srcDoc,mapFunction){
     inData <- srcDoc
   }
   retVal<-list(mclapply(inData, mapFunction,mc.cores = pkg.env$numCores))[[1]]
+  retVal<-list_drop_empty(retVal)
   gc()
   return (retVal)
 }

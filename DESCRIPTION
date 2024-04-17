@@ -17,4 +17,5 @@ Depends:
     parallel,
     foreach,
     doParallel,
-    dplyr
+    dplyr,
+    vctrs
